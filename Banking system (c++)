@@ -1,0 +1,471 @@
+#include <stdio.h>
+#include<graphics.h>
+#include <stdlib.h>
+#include <string.h>
+#include <conio.h>
+#include <stdbool.h>
+#include<string.h>
+#include <math.h>
+char ct[10]=".jpg";
+char im[10];
+int j;
+float balance ;
+int ac;
+int km=1;
+
+
+//Functions
+float  login();
+void mainMenu();
+void checkBalance(float balance);
+float moneyDeposit(float balance);
+float moneyWithdraw(float balance);
+void menuExit();
+void errorMessage();
+float reg()
+{
+
+    j++;
+
+    FILE *f4;
+    f4=fopen("f4.txt","w");
+//f4=fopen("f4.txt","r");
+    fprintf(f4,"%d",j);
+    fclose(f4);
+
+
+
+    char u[15];
+    char p[15];
+    float b;
+
+    FILE *f1,*f2,*f3;
+    f1=fopen("f1.txt","a");
+    f2=fopen("f2.txt","a");
+    f3=fopen("f3.txt","a");
+
+    printf("                ");
+    printf("Enter Your Username : \n");
+    scanf("%s",&u);
+    printf("                ");
+    printf("Enter Your password : \n");
+    scanf("%s",&p);
+    printf("                ");
+    printf("Enter Your initial moneyDeposit : \n");
+    scanf("%f",&b);
+
+    fprintf(f1,"%s\n",u);
+    fprintf(f2,"%s\n",p);
+    fprintf(f3,"%f\n",b);
+    fclose(f1);
+    fclose(f2);
+    fclose(f3);
+    //tm++;
+}
+
+
+
+void send_money()
+{
+    printf("                ");
+    printf("Enter the amount :\n");
+    int am;
+    scanf("%d",&am);
+    printf("                ");
+    printf("Enter the acount number :\n");
+    int am1;
+    scanf("%d",&am1);
+
+    int in = balance;
+    balance-=am;
+
+
+    int i;
+    long long a[j+5];
+    FILE *f;
+    f=fopen("f3.txt","r");
+    long long n,p;
+    for(i=0; i<j; i++)
+    {
+        fscanf(f,"%lld",&n);
+        a[i]=n;
+        if(n==in)
+            p=i;
+    }
+    a[p]=balance;
+    a[am1-1]+=am;
+    f=fopen("f3.txt","w");
+    for(i=0; i<j; i++)
+    {
+        fprintf(f,"%lld\n",a[i]);
+    }
+    fclose(f);
+    printf("                ");
+    printf("Send money successful from acount number %lld to acount number %d \n",p+1,am1);
+
+
+
+
+
+
+}
+
+//Main Code
+int main()
+{
+    //Local Declarations
+//   pr
+
+
+
+    FILE *f4;
+//f4=fopen("f4.txt","w");
+    f4=fopen("f4.txt","r");
+    if(f4==NULL)
+        j=0;
+    fscanf(f4,"%d",&j);
+    fclose(f4);
+
+
+
+
+    int option;
+
+    int choose;
+
+    bool again = true;
+    printf("                ");
+
+    printf("< 1 > Login\n");
+    printf("                ");
+    printf("< 2 > Register\n");
+
+    int num;
+    float nn;
+    scanf("%d",&num);
+    if(num==1)
+        nn=login();
+    else if(num==2)
+    {
+        reg();
+          printf("                ");
+        printf("Your registration completed \nLogin : \n");
+
+        nn=login();
+    }
+
+    balance = nn ;
+
+
+    while (again)
+    {
+        mainMenu();
+
+        if(km)
+        {
+                initwindow(500,400,"Image window");
+               readimagefile(im,10,20,500,400);
+               km=0;
+        }
+
+
+
+        printf("Your acount number is : %d\n",ac);
+
+        printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
+        printf("Your Selection:\t");
+        scanf("%d", &option);
+
+
+        switch (option)
+        {
+        case 1:
+            system("CLS");
+            checkBalance(balance);
+            break;
+        case 2:
+            system("CLS");
+            balance = moneyDeposit(balance);
+            break;
+        case 3:
+            system("CLS");
+            balance = moneyWithdraw(balance);
+            break;
+
+        case 4:
+            system("CLS");
+            send_money();
+            break;
+
+        case 5:
+            system("CLS");
+            menuExit();
+            return 0;
+
+        default:
+            errorMessage();
+            break;
+        }
+
+        printf("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+        printf("            Would you like to do another transaction:\n");
+        printf("< 1 > Yes\n");
+        printf("< 2 > No\n");
+        scanf("%d", &choose);
+
+        system("CLS");
+
+
+
+        if (choose == 2)
+        {
+            again = false;
+            menuExit();
+
+        }
+
+    }
+
+
+    return 0;
+}//main code
+
+
+
+//Functions
+float  login()
+{
+    int pn=1,i;
+
+    char username[15];
+    char u[15];
+    char password[12];
+    char p[12];
+    printf("            Enter your username:\n");
+    scanf("%s",&username);
+
+    printf("            Enter your password:\n");
+    scanf("%s",&password);
+
+
+
+
+
+
+
+
+    FILE *f1,*f2;
+    f1=fopen("f1.txt","r");
+    f2=fopen("f2.txt","r");
+    FILE *f3;
+    f3=fopen("f3.txt","r");
+    for( i=0; i<10000; i++)
+    {
+
+
+        fscanf(f1,"%s",&u);
+
+        fscanf(f2,"%s",&p);
+
+        float pm;
+        fscanf(f3,"%f",&pm);
+
+        strcpy(im,u);
+        strcat(im,ct);
+        if(strcmp(username,u)==0)
+        {
+            if(strcmp(password,p)==0)
+            {
+                system("CLS");
+
+                printf("\n          Welcome.Login Success!\n");
+
+                ac=i+1;
+
+                //return 0;
+
+
+
+                pn=0;
+                fclose(f1);
+                fclose(f2);
+                fclose(f3);
+                return pm;
+
+            }
+
+        }
+    }
+    if(pn)
+    {
+        printf("\n           User doesn't exist.\n");
+        fclose(f1);
+        fclose(f2);
+        fclose(f3);
+        login();
+    }
+    return 0;
+
+}
+
+//login
+
+void mainMenu()
+{
+
+    printf("            ******************Hello!*******************\n");
+    printf("            **********Welcome to ATM Banking***********\n\n");
+    printf("            ****Please choose one of the options below****\n\n");
+    printf("            < 1 >  Check Balance\n");
+    printf("            < 2 >  Deposit\n");
+    printf("            < 3 >  Withdraw\n");
+    printf("            < 4 >  Send money\n");
+    printf("            < 5 >  Exit\n\n");
+
+}//Main Menu
+
+void checkBalance(float balance)
+{
+    printf("You Choose to See your Balance\n");
+    printf("\n\n****Your Available Balance is:   $%.2f\n\n", balance);
+
+}//Check Balance
+
+float moneyDeposit(float balance)
+{
+    float deposit;
+    printf("You choose to Deposit a money\n");
+    printf("$$$$Your Balance is: $%.2f\n\n", balance);
+    printf("****Enter your amount to Deposit\n");
+    scanf("%f", &deposit);
+
+    long long in=balance;
+    balance += deposit;
+
+    printf("\n****Your New Balance is:   $%.2f\n\n", balance);
+
+
+// balance add
+    int i;
+    long long a[j];
+    FILE *f;
+    f=fopen("f3.txt","r");
+    long long n,p;
+    for(i=0; i<j; i++)
+    {
+        fscanf(f,"%lld",&n);
+        a[i]=n;
+        if(n==in)
+            p=i;
+    }
+    a[p]=balance;
+    f=fopen("f3.txt","w");
+    for(i=0; i<j; i++)
+    {
+        fprintf(f,"%lld\n",a[i]);
+    }
+    fclose(f);
+
+
+
+
+
+
+
+
+    return balance;
+
+}//money deposit
+
+float moneyWithdraw(float balance)
+{
+    float withdraw;
+    bool back = true;
+
+    printf("You choose to Withdraw a money\n");
+    printf("$$$$Your Balance is: $%.2f\n\n", balance);
+
+    while (back)
+    {
+        printf("Enter your amount to withdraw:\n");
+        scanf("%f", &withdraw);
+
+
+        if (withdraw < balance)
+        {
+            back = false;
+            long long in=balance;
+            balance -= withdraw;
+            printf("\n$$$$Your withdrawing money is:  $%.2f\n", withdraw);
+            printf("****Your New Balance is:   $%.2f\n\n", balance);
+
+
+
+
+
+            int i;
+            long long a[j];
+            FILE *f;
+            f=fopen("f3.txt","r");
+            long long n,p;
+            for(i=0; i<j; i++)
+            {
+                fscanf(f,"%lld",&n);
+                a[i]=n;
+                if(n==in)
+                    p=i;
+            }
+            a[p]=balance;
+            f=fopen("f3.txt","w");
+            for(i=0; i<j; i++)
+            {
+                fprintf(f,"%lld\n",a[i]);
+            }
+            fclose(f);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+        else
+        {
+
+            printf("+++You don't have enough money+++\n");
+            printf("Please contact to your Bank Customer Services\n");
+            printf("****Your Balance is:   $%.2f\n\n", balance);
+
+        }
+    }
+    return balance;
+
+
+}//money withdraw
+
+void menuExit()
+{
+    printf("--------------Take your receipt!!!------------------\n");
+    printf("-----Thank you for using ATM Banking Machine!!!-----\n");
+//   printf("-----BROUGHT TO YOU BY TEAM -----\n");
+
+
+}//exit menu
+
+void errorMessage()
+{
+    ;
+    printf("+++!!!You selected invalid number!!!+++\n");
+}//error message
+
+
+//    -lbgi -lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32
