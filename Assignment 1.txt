@@ -1,0 +1,178 @@
+Name : Rifatul Islam 
+Id   : 18192103187
+sec  : 05
+
+***Assignment 1***
+
+1. Dijkstra Algorithm : 
+
+Properties: 
+
+The goal of Dijkstra’s algorithm is to construct for each vertex v a shortest path from v to v0.
+Dijkstra’s algorithm is a recursive algorithm which at each stage constructs a set S of visited
+vertices. A visited vertex v ∈ S has the property that among all paths from v to v0 containing
+only vertices in S.
+1. there is a shortest such path whose length is then recorded as λ(v).
+2. The path itself is recorded as a sequence of vertices.
+The set U = V \ S is referred to as the set of unvisited vertices. The algorithm recursively adds
+points from U to S.
+At each iteration of the algorithm a current vertex vc ∈ U is chosen. Initially the current
+vertex is vc = v0. At each iteration three things happen
+
+Algorithm :
+
+ function Dijkstra(Graph, source):
+ 
+      create vertex set Q
+
+     for each vertex v in Graph:            
+         dist[v] ← INFINITY                 
+         prev[v] ← UNDEFINED                
+         add v to Q                     
+    dist[source] ← 0                       
+          while Q is not empty:
+          u ← vertex in Q with min dist[u]   
+                                             
+          remove u from Q        
+         for each neighbor v of u:           // only v that are still in Q
+             alt ← dist[u] + length(u, v)
+             if alt < dist[v]:              
+                 dist[v] ← alt                  prev[v] ← u
+
+     return dist[], prev[]
+
+
+Complexity analysis :
+
+The cost of a path between two vertices in G is the sum 
+of the weights of the vertices on that path.
+We show that, for such graphs, 
+the time complexity of Dijkstra's algorithm, 
+implemented with a binary heap, is O(|E|+|V|log|V|)
+
+Drawbacks:
+
+
+Advantages:-
+
+1) It is used in Google Maps
+
+2) It is used in finding Shortest Path.
+
+3) It is used in geographical Maps
+
+4) To find locations of Map which refers to vertices of graph.
+
+5) Distance between the location refers to edges.
+
+6) It is used in IP routing to find Open shortest Path First.
+
+7) It is used in the telephone network.
+
+Disadvantages:-
+
+1) It do blind search so wastes lot of time while processing.
+
+2) It cannot handle negative edges.
+
+3) This leads to acyclic graphs and most often cannot obtain the right shortest path.
+
+2. Floyd-Warshall Algorithm :
+
+Properties :
+
+The Floyd-Warshall algorithm is a shortest path algorithm for graphs.
+Like the Bellman-Ford algorithm or the Dijkstra's algorithm,
+it computes the shortest path in a graph. However,
+Bellman-Ford and Dijkstra are both single-source, 
+shortest-path algorithms.
+This means they only compute the shortest path from a single source.
+Floyd-Warshall, on the other hand,
+computes the shortest distances between every pair of vertices in the input graph
+
+
+Algorithm  :
+
+
+Create a |V| x |V| matrix, M, that will describe the distances between vertices
+For each cell (i, j) in M:
+    if i == j:
+        M[i][j] = 0
+    if (i, j) is an edge in E:
+        M[i][j] = weight(i, j)
+    else:
+        M[i][j] = infinity
+for k from 1 to |V|:
+    for i from 1 to |V|:
+        for j from 1 to |V|:
+            if M[i][j] > M[i][k] + M[k][j]:
+                M[i][j] = M[i][k] + M[k][j]
+
+
+Complexity analysis  :
+
+The Floyd-Warshall algorithm is a graph-analysis algorithm that
+calculates shortest paths between all pairs of nodes in a graph. 
+It is a dynamic programming algorithm with O(|V|3) time complexity
+and O(|V|2) space complexity.
+
+Drawbacks :
+
+Advantages:
+1 It is easy to write the code for this algorithm in a program.
+ 
+2 It highlights all the shortest path pairs in a graph
+
+Disadvantages:
+1 It works slower than other algorithms designed to perform the same task
+2 It can find the shortest path only when there are no negative cycles.
+3 It does not return the details of the paths.
+
+
+
+3. Bellman Ford Algorithm :
+
+properties :
+
+The Bellman-Ford algorithm is a graph search algorithm that finds the shortest path between
+a given source vertex and all other vertices in the graph.
+This algorithm can be used on both weighted and unweighted graphs.
+Like Dijkstra's shortest path algorithm, the Bellman-Ford algorithm is guaranteed to find 
+the shortest path in a graph. Though it is slower than Dijkstra's algorithm,
+Bellman-Ford is capable of handling graphs that contain negative edge weights,
+so it is more versatile. It is worth noting that if there exists a negative cycle in the graph,
+then there is no shortest path. Going around the negative cycle an infinite number of times would
+continue to decrease the cost of the path (even though the path length is increasing).
+Because of this, Bellman-Ford can also detect negative cycles which is a useful feature
+
+Algorithm :
+
+
+The pseudo-code for the Bellman-Ford algorithm is quite short
+
+for v in V:
+    v.distance = infinity
+    v.p = None
+source.distance = 0
+for i from 1 to |V| - 1:
+    for (u, v) in E:
+        relax(u, v)
+
+Complexity analysis :
+
+Bellman-Ford makes |E|relaxations for every iteration, 
+and there are |V| - 1∣V∣−1 iterations. Therefore, the worst-case scenario is 
+that Bellman-Ford runs in O\big(|V| \cdot |E|\big)O(∣V∣⋅∣E∣) time.
+
+Drawbacks :
+
+Bellman Ford is a shortest path algorithm.
+Its working is somewhat similar to Djisktra’s shortest path algorithm.
+The only advantage it has over Djisktra is that it works 
+with negative weights while Djisktra doesn't.
+
+However, Djisktra is much faster than Bellman Ford.
+So if you know that there are no negative cycles, 
+then always Djisktra instead of Bellman Ford. 
+But if there are any,
+then Djisktra won't work, but Bellman Ford will.
