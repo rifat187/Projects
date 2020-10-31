@@ -1,0 +1,73 @@
+Name : Rifatul Islam 
+Id   : 18192103187
+sec  : 05
+
+***Assignment 2***
+
+
+a.
+
+In graph 1  Dijkstra Algorithm, Floyd-Warshall and Bellman Ford
+three of them can be applied.
+
+but In graph 2  Dijkstra Algorithm and Floyd-Warshall
+doesn't work in negative edges.
+In graph 2 only Bellman Ford can be applied if there is not 
+a negative weight cycle.but here exist a cycle that's why Bellman Ford
+will not work.
+
+b.
+In graph 1 we can apply Dijkstra Algorithm.
+let consider the source node is 1 than the shortest
+path from 1 to all of the node is :
+
+1 to 2 is 3
+1 to 3 is 4
+1 to 4 is 3
+1 to 5 is 5
+
+In graph 2 only Bellman Ford can be applied if there is not 
+a negative wight cycle.
+
+Here, 
+3 -> 1 ,  1 ->2  and 2->3 
+we found a negative weight cycle which weight is (-1+(-3)+2)= -2.
+since graph contains a  a negative weight cycle bellman ford will not 
+work in this graph
+
+
+
+c.
+
+
+
+
+Dijkstra’s Algorithm is one example of a single-source shortest.
+it finds shortest path from source to all other vertices. 
+
+Floyd Warshall Algorithm is an example of all-pairs shortest path algorithm,
+meaning it computes the shortest path between all pair of nodes.
+
+Bellman-ford algorithm can deal with the shortest path problem with negative weights.
+Dijkstra Algorithm and Floyd-Warshall doesn't work in negative edges.
+
+Time Complexities :
+
+Time Complexity of Dijkstra’s Algorithm: O(E log V)
+Time Complexity of Floyd Warshall: O(V3)
+Time Complexity of  Bellman-ford :  O(V E)
+
+
+Dijkstra Algorithm will be most efficent when a graph doesn't 
+contain any negative edges.we can also computes the shortest path between all pair of nodes
+using Dijkstra Algorithm in O(n^2) time which is better than Floyd Warshall. 
+About negative edges we can only use Bellman-ford.
+
+
+ 
+
+
+
+
+
+
