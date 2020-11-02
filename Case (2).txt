@@ -1,1 +1,422 @@
-()(()
+
+
+
+1. dijkstra :
+
+
+#include<iostream>
+#include<stdio.h>
+using namespace std;
+#define INFINITY 9999
+#define max 5
+void dijkstra(int G[max][max],int n,int startnode);
+int main()
+{
+    int G[max][max]= {{0,1,0,3,10},{1,0,5,0,0},{0,5,0,2,1},{3,0,2,0,6},{10,0,1,6,0}};
+    int n=5;
+    int u=0;
+    dijkstra(G,n,u);
+    return 0;
+}
+void dijkstra(int G[max][max],int n,int startnode)
+{
+    int cost[max][max],distance[max],pred[max];
+    int visited[max],count,mindistance,nextnode,i,j;
+    for(i=0; i<n; i++)
+        for(j=0; j<n; j++)
+            if(G[i][j]==0)
+                cost[i][j]=INFINITY;
+            else
+                cost[i][j]=G[i][j];
+    for(i=0; i<n; i++)
+    {
+        distance[i]=cost[startnode][i];
+        pred[i]=startnode;
+        visited[i]=0;
+    }
+    distance[startnode]=0;
+    visited[startnode]=1;
+    count=1;
+    while(count<n-1)
+    {
+        mindistance=INFINITY;
+        for(i=0; i<n; i++)
+            if(distance[i]<mindistance&&!visited[i])
+            {
+                mindistance=distance[i];
+                nextnode=i;
+            }
+        visited[nextnode]=1;
+        for(i=0; i<n; i++)
+            if(!visited[i])
+                if(mindistance+cost[nextnode][i]<distance[i])
+                {
+                    distance[i]=mindistance+cost[nextnode][i];
+                    pred[i]=nextnode;
+                }
+        count++;
+    }
+    for(i=0; i<n; i++)
+        if(i!=startnode)
+        {
+            cout<<"\nDistance of node"<<i<<"="<<distance[i];
+            cout<<"\nPath="<<i;
+            j=i;
+            do
+            {
+                j=pred[j];
+                cout<<"<-"<<j;
+            }
+            while(j!=startnode);
+        }
+}
+
+
+
+
+2. Bellman Ford:
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+void BellmanFord(int graph[][3], int V, int E,
+                 int src)
+{
+
+    int dis[V];
+    for (int i = 0; i < V; i++)
+        dis[i] = INT_MAX;
+
+
+    dis[src] = 0;
+
+
+    for (int i = 0; i < V - 1; i++)
+    {
+
+        for (int j = 0; j < E; j++)
+        {
+            if (dis[graph[j][0]] + graph[j][2] <
+                    dis[graph[j][1]])
+                dis[graph[j][1]] =
+                    dis[graph[j][0]] + graph[j][2];
+        }
+    }
+
+
+    for (int i = 0; i < E; i++)
+    {
+        int x = graph[i][0];
+        int y = graph[i][1];
+        int weight = graph[i][2];
+        if (dis[x] != INT_MAX &&
+                dis[x] + weight < dis[y])
+            cout << "Graph contains negative"
+                 " weight cycle"
+                 << endl;
+    }
+
+
+    for (int i = 0; i < V; i++)
+        cout << i << "\t\t" << dis[i] << endl;
+}
+
+
+int main()
+{
+    int V = 5;
+    int E = 8;
+
+
+    int graph[][3] = { { 0, 1, -1 }, { 0, 2, 4 },
+        { 1, 2, 3 }, { 1, 3, 2 },
+        { 1, 4, 2 }, { 3, 2, 5 },
+        { 3, 1, 1 }, { 4, 3, -3 }
+    };
+
+    BellmanFord(graph, V, E, 0);
+    return 0;
+}
+
+
+
+3. Prim’s Algorithm
+
+
+#include <bits/stdc++.h>
+using namespace std;
+#define V 5
+bool createsMST(int u, int v, vector<bool> inMST)
+{
+    if (u == v)
+        return false;
+    if (inMST[u] == false && inMST[v] == false)
+        return false;
+    else if (inMST[u] == true && inMST[v] == true)
+        return false;
+    return true;
+}
+void printMinSpanningTree(int cost[][V])
+{
+    vector<bool> inMST(V, false);
+    inMST[0] = true;
+    int edgeNo = 0, MSTcost = 0;
+    while (edgeNo < V - 1)
+    {
+        int min = INT_MAX, a = -1, b = -1;
+        for (int i = 0; i < V; i++)
+        {
+            for (int j = 0; j < V; j++)
+            {
+                if (cost[i][j] < min)
+                {
+                    if (createsMST(i, j, inMST))
+                    {
+                        min = cost[i][j];
+                        a = i;
+                        b = j;
+                    }
+                }
+            }
+        }
+        if (a != -1 && b != -1)
+        {
+            cout<<"Edge "<<edgeNo++<<" : ("<<a<<" , "<<b<<" ) : cost = "<<min<<endl;
+            MSTcost += min;
+            inMST[b] = inMST[a] = true;
+        }
+    }
+
+}
+int main()
+{
+    int cost[][V] =
+    {
+        { INT_MAX, 12, INT_MAX, 25, INT_MAX },
+        { 12, INT_MAX, 11, 8, 12 },
+        { INT_MAX, 11, INT_MAX, INT_MAX, 17 },
+        { 25, 8, INT_MAX, INT_MAX, 15 },
+        { INT_MAX, 12, 17, 15, INT_MAX },
+    };
+
+    printMinSpanningTree(cost);
+    return 0;
+}
+
+
+4.   kruskal
+
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+int mincost(bool mstset[], int cost[],int v)
+
+{
+
+    int min=INT_MAX;
+
+    int u;
+
+    for(int i=0; i<v; i++)
+
+    {
+
+        if(mstset[i]==false&&cost[i]<
+
+                min)
+
+        {
+
+            min=cost[i];
+
+            u=i;
+
+        }
+
+    }
+
+    return u;
+
+}
+
+void kruskal(priority_queue<pair<int,int> > q[],bool mstset[],int parent[],int cost[],int v)
+
+{
+
+    for(int i=0; i<v-1; i++)
+
+    {
+
+        int u=mincost(mstset,cost,v);
+
+        cout<<"min key"<<u<<endl;
+
+        mstset[u]=true;
+
+        pair<int, int> p;
+
+        while(!q[u].empty())
+
+        {
+
+            p=q[u].top();
+
+            q[u].pop();
+
+            if(mstset[p.first]==false&&
+
+                    cost[p.first]>p.second)
+
+            {
+
+                cost[p.first]=p.second;
+
+                parent[p.first]=u;
+
+                cout<<"updated cost of "<<p.first<<"is "<<cost[p.first]<<endl;
+
+            }
+
+        }
+
+    }
+
+}
+
+int main()
+
+{
+
+    int v,e;
+
+    cin>>v>>e;
+
+    priority_queue<pair<int,int> > q[v];
+
+    for(int i=0; i<e; i++)
+
+    {
+
+        int x,y,z;
+
+        cin>>x>>y>>z;
+
+        q[x].push(make_pair(y,z));
+
+        q[y].push(make_pair(x,z));
+
+    }
+
+    bool mstset[v];
+
+    int parent[v],cost[v];
+
+    for(int i=0; i<v; i++)
+        mstset[i]=false;
+
+    for(int i=0; i<v; i++)
+        parent[i]=-1;
+
+    for(int i=0; i<v; i++)
+        cost[i]=INT_MAX;
+
+    cost[0]=0;
+
+    parent[0]=-1;
+
+    kruskal(q,mstset,parent,cost,
+
+            v);
+
+    for(int i=1; i<v; i++)
+
+        cout<<i<<" "<<parent[i]<<endl;
+
+}
+
+
+5. floyd warshall :
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main()
+{
+    int n,m;
+    cin>>n>>m;
+    int dis[n+10][n+10];
+
+
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1; j<=n; j++)
+        {
+
+            dis[i][j]=1000000;
+
+        }
+    }
+
+
+    for(int i=0; i<m; i++)
+    {
+        int a,b,c;
+        cin>>a>>b>>c;
+        dis[a][b]=c;
+        dis[b][a]=c;
+    }
+
+
+
+    for(int k=1; k<=n; k++)
+    {
+        for(int i=1; i<=n; i++)
+        {
+            for(int j=1; j<=n; j++)
+            {
+
+                if(i==j)
+                    dis[i][j]=0;
+
+                dis[i][j]=min(dis[i][j],dis[i][k]+dis[k][j]);
+
+            }
+        }
+    }
+
+    for(int i=1; i<=n; i++)
+    {
+        for(int j=1; j<=n; j++)
+        {
+            cout<<dis[i][j];
+
+        }
+
+        cout<<endl;
+    }
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
